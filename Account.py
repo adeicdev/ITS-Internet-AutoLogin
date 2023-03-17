@@ -16,8 +16,7 @@ class UserParameters:
         self.password = str(ITS_PASSWORD)
     
     def __str__(self) -> str:
-        readacted_password     = '*' * len(self.password)
-        readacted_password[0]  = self.password[0]
-        readacted_password[-1] = self.password[-1]
+        readacted_password = '*' * len(self.password)
+        readacted_password = self.password[0] + readacted_password[1:] 
         return f"Username : {self.username}; Password : {readacted_password}"
         
