@@ -1,7 +1,9 @@
 import time
 from selenium import webdriver
 from Account import UserParameters
+from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+
 
 class ITSAutoLogger:
     def __init__(self, UserInfo : UserParameters):
@@ -43,26 +45,27 @@ class ITSAutoLogger:
             time.sleep(10)
             
             print("|> Looking for button...")
-            self.driver.find_element_by_link_text('Akses Internet Personal').click()
+            self.driver.find_element(By.LINK_TEXT, 'Akses Internet Personal').click()
             time.sleep(10)
             
             print("|> Writing Username")
-            self.driver.find_element_by_id('username').send_keys(self.Username)
+            self.driver.find_element(By.ID, 'username').send_keys(self.Username)
             time.sleep(1)
 
             print("|> Waiting for animation...")
-            self.driver.find_element_by_id('continue').click()
+            self.driver.find_element(By.ID, 'continue').click()
             time.sleep(10)
 
             print("|> Writing Password")
-            self.driver.find_element_by_id('password').send_keys(self.Password)
+            self.driver.find_element(By.ID, 'password').send_keys(self.Password)
             time.sleep(2)
 
             print("|> Loggin in...")
-            self.driver.find_element_by_id('login').click()
+            self.driver.find_element(By.ID, 'login').click()
             time.sleep(4)
             
             return self.checkLoginStatus()
-        except:
+        except Exception as Ex:
+            print("|> Error Found :", Ex)
             return False
         
