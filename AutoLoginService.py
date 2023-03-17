@@ -1,12 +1,16 @@
-from selenium import webdriver
 import time
+from selenium import webdriver
 from Account import UserParameters
-
-test = True
+from selenium.webdriver.firefox.options import Options
 
 class ITSAutoLogger:
     def __init__(self, UserInfo : UserParameters):
-        self.driver = webdriver.Firefox(executable_path='./firefox_geckodriver/geckodriver')
+        options = Options()
+        options.headless = True
+        self.driver = webdriver.Firefox(
+            executable_path = './firefox_geckodriver/geckodriver',
+            options         = options
+        )
         print("Using ->", UserInfo)
         self.Username = UserInfo.username
         self.Password = UserInfo.password
