@@ -1,0 +1,16 @@
+[Unit]
+Description=ITS Internet Autologin Service
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 main.py
+WorkingDirectory=$PWD
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=its_autologin
+
+[Install]
+WantedBy=multi-user.target

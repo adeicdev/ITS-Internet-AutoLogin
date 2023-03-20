@@ -2,7 +2,9 @@
 
 import time
 import logging
+import sys
 import AutoLoginService
+from systemd.journal import JournaldLogHandler
 from Account import UserParameters
 
 # Set the threshold for selenium to WARNING
@@ -13,23 +15,36 @@ seleniumLogger.setLevel(logging.NOTSET)
 from urllib3.connectionpool import log as urllibLogger
 urllibLogger.setLevel(logging.WARNING)
 
-print("starting....")
+# Get an instance of the logger
+LOGGER = logging.getLogger(__name__)
+
+# Instantiate the JournaldLogHandler to hook into systemd
+JOURNALD_HANDLER = JournaldLogHandler()
+JOURNALD_HANDLER.setFormatter(logging.Formatter(
+    '[%(levelname)s] %(message)s'
+))
+
+# Add the journald handler to the current logger
+LOGGER.addHandler(JOURNALD_HANDLER)
+LOGGER.setLevel(logging.INFO)
+
+LOGGER.info("starting....")
 
 user_account = UserParameters()
-login_service = AutoLoginService.ITSAutoLogger(user_account)
+login_service = AutoLoginService.ITSAutoLogger(user_account, LOGGER)
 
 login_service.start()
 
 while True:
     connected = login_service.checkLoginStatus()
     if connected:
-        print("Connected \t" + time.strftime("%H:%M:%S :: %d/%m/%Y"))
+        LOGGER.info("Connected \t" + time.strftime("%H:%M:%S :: %d/%m/%Y"))
     else:
-        print("Trying to Login...")
+        LOGGER.info("Trying to Login...")
         tryLogin = login_service.login()
         if tryLogin:
-            print("Success !")
+            LOGGER.info("Success !")
         else:
-            print("Unkown failure.... Waiting 5 minutes before tying again....")
+            LOGGER.info("Unkown failure.... Waiting 5 minutes before tying again....")
             time.sleep(60 * 5)
     time.sleep(60 * 10)
