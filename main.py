@@ -4,7 +4,7 @@ import time
 import logging
 import sys
 import AutoLoginService
-from systemd.journal import JournaldLogHandler
+from systemd.journal import JournalHandler
 from Account import UserParameters
 
 # Set the threshold for selenium to WARNING
@@ -19,7 +19,7 @@ urllibLogger.setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
 # Instantiate the JournaldLogHandler to hook into systemd
-JOURNALD_HANDLER = JournaldLogHandler()
+JOURNALD_HANDLER = JournalHandler()
 JOURNALD_HANDLER.setFormatter(logging.Formatter(
     '[%(levelname)s] %(message)s'
 ))

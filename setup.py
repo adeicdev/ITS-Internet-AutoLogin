@@ -13,13 +13,18 @@ if os.geteuid() != 0:
     print("Please get root privilages such as sudo")
     exit()
 
+subprocess.run(["pip", "install", "selenium"])
+
 print("Copying the service file")
 shutil.copy('./its_autologin.service', "/etc/systemd/system/its_autologin.service")
 
 currect_cwd = os.getcwd()
+current_usr = os.getlogin()
 
 service_file_str = open('/etc/systemd/system/its_autologin.service').read()
-service_file_str = service_file_str.replace("$PWD", currect_cwd)
+
+service_file_str = service_file_str.replace("$PWD"    , currect_cwd)
+service_file_str = service_file_str.replace("$usrname", current_usr)
 
 project_config_file = open('/etc/systemd/system/its_autologin.service', "w")
 project_config_file.write(service_file_str)
