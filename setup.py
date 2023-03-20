@@ -13,17 +13,17 @@ if os.geteuid() != 0:
     print("Please get root privilages such as sudo")
     exit()
 
-currect_cwd = os.getcwd()
-
-service_file_str = open('./its_autologin.service').read()
-service_file_str = service_file_str.replace("$PWD", currect_cwd)
-
-project_config_file = open('./its_autologin.service', "w")
-project_config_file.write(service_file_str)
-project_config_file.close()
-
 print("Copying the service file")
 shutil.copy('./its_autologin.service', "/etc/systemd/system/its_autologin.service")
+
+currect_cwd = os.getcwd()
+
+service_file_str = open('/etc/systemd/system/its_autologin.service').read()
+service_file_str = service_file_str.replace("$PWD", currect_cwd)
+
+project_config_file = open('/etc/systemd/system/its_autologin.service', "w")
+project_config_file.write(service_file_str)
+project_config_file.close()
 
 print("Reloading systemd")
 subprocess.run(["systemctl", "daemon-reload"])
