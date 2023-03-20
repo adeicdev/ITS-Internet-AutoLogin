@@ -38,7 +38,7 @@ login_service.start()
 while True:
     connected = login_service.checkLoginStatus()
     if connected:
-        LOGGER.info("Connected \t" + time.strftime("%H:%M:%S :: %d/%m/%Y"))
+        LOGGER.info("Connected")
     else:
         LOGGER.info("Trying to Login...")
         tryLogin = login_service.login()
