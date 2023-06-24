@@ -13,7 +13,7 @@ if os.geteuid() != 0:
     print("Please get root privilages such as sudo")
     exit()
 
-subprocess.run(["pip", "install", "selenium"])
+subprocess.run(["pip", "install", "selenium==4.9.1"])
 
 print("Copying the service file")
 shutil.copy('./its_autologin.service', "/etc/systemd/system/its_autologin.service")
